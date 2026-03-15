@@ -3,7 +3,11 @@ guid: 136f65c13fda02349be530e95c34eb66
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - mainMenuPanel: {instanceID: 0}
+  - creditsPanel: {instanceID: 0}
+  - gameUI: {instanceID: 0}
+  - fadeAnimator: {fileID: 5219797734448909658, guid: cd4f4209497d47e4eb13f98e9bda0da4, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
