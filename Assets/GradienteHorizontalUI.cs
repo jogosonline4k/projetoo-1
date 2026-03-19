@@ -4,8 +4,11 @@ using UnityEngine.UI;
 [AddComponentMenu("UI/Effects/Horizontal Gradient")]
 public class GradienteHorizontalUI : BaseMeshEffect
 {
-    public Color corEsquerda = new Color(1, 1, 1, 0); // Ponta (Transparente)
-    public Color corDireita = new Color(1, 1, 1, 1);  // Base (Sólida)
+    // Lado esquerdo continua totalmente transparente
+    public Color corEsquerda = new Color(1, 1, 1, 0);
+
+    // Lado direito (Base) agora com 0.5 de Alpha (50% transparente)
+    public Color corDireita = new Color(1, 1, 1, 0.5f);
 
     public override void ModifyMesh(VertexHelper vh)
     {
@@ -16,12 +19,12 @@ public class GradienteHorizontalUI : BaseMeshEffect
         {
             vh.PopulateUIVertex(ref v, i);
 
-            // O Unity organiza os vértices da UI geralmente nesta ordem:
-            // 0: Inferior Esquerdo, 1: Superior Esquerdo, 2: Superior Direito, 3: Inferior Direito
+            // 0 e 1 são os vértices da esquerda
             if (i == 0 || i == 1)
             {
                 v.color = corEsquerda;
             }
+            // 2 e 3 são os vértices da direita (a base do seu gradiente)
             else
             {
                 v.color = corDireita;

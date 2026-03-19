@@ -203,6 +203,7 @@ public class Escopeta : MonoBehaviour
 
             transform.localRotation = Quaternion.Lerp(transform.localRotation, targetRotation, Time.deltaTime * recoilSpeed);
             transform.localPosition = Vector3.Lerp(transform.localPosition, originalPosition + targetOffset, Time.deltaTime * recoilSpeed);
+            Debug.Log("pirocoto is CUTE");
         }
     }
 }
