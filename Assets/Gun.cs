@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System.Collections;
 
 public class Gun : MonoBehaviour
 {
@@ -27,6 +28,19 @@ public class Gun : MonoBehaviour
     public float runTiltAngle = -45f;
     private float baseZ;
 
+    [Header("Configurações de Áudio")]
+    public AudioSource audioSource;
+    public AudioClip somTiro;
+    [Range(0f, 1f)] public float volumeTiro = 0.8f;
+    
+    public AudioClip somRecarga;
+    [Range(0f, 1f)] public float volumeRecarga = 0.5f;
+    
+    public AudioClip somGiro;
+    [Range(0f, 1f)] public float volumeGiro = 0.3f;
+
+    private bool isReloading = false;
+
     [Header("Posição da Arma")]
     public Vector2 idleOffset = new Vector2(0, 0);
     public Vector2 walkOffset = new Vector2(0.05f, 0);
@@ -47,34 +61,55 @@ public class Gun : MonoBehaviour
         }
 
         renderers = GetComponentsInChildren<SpriteRenderer>();
+
+        if (audioSource == null) audioSource = GetComponent<AudioSource>();
+        
+        if (audioSource != null) 
+        {
+            audioSource.playOnAwake = false;
+            audioSource.volume = volumeGiro;
+        }
     }
 
     void Update()
     {
         if (Character != null && Character.isGameOver) return;
 
+
+        if (UnityEngine.EventSystems.EventSystem.current != null && 
+            UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.F)) ToggleGunVisibility();
         if (!gunVisible) return;
 
-        if (currentAmmo <= 0 && !spinning)
+        if (currentAmmo <= 0 && !spinning && !isReloading)
         {
             Reload();
         }
 
-        if (Input.GetMouseButtonDown(0) && !spinning && currentAmmo > 0)
+        if (Input.GetMouseButtonDown(0) && !spinning && currentAmmo > 0 && !isReloading)
         {
             Shoot();
             ApplyRecoil();
             currentAmmo--;
             UpdateAmmoUI();
             shotCount++;
+
+            if (audioSource != null && somTiro != null)
+            {
+                audioSource.PlayOneShot(somTiro, volumeTiro);
+            }
+
             if (shotCount >= 20)
             {
                 StartSpin();
             }
         }
 
-        if (Input.GetKey(KeyCode.R) && !spinning)
+        if (Input.GetKeyDown(KeyCode.R) && !spinning && !isReloading && currentAmmo < maxAmmo)
         {
             Reload();
         }
@@ -92,40 +127,7 @@ public class Gun : MonoBehaviour
         }
         else
         {
-            Animator charAnimator = null;
-            if (Character != null)
-            {
-                charAnimator = Character.GetComponent<Animator>();
-            }
-
-            bool isRunning = false;
-            bool isWalking = false;
-
-            if (charAnimator != null)
-            {
-                if (charAnimator.HasParameter("IsRunning")) isRunning = charAnimator.GetBool("IsRunning");
-                if (charAnimator.HasParameter("IsWalking")) isWalking = charAnimator.GetBool("IsWalking");
-            }
-
-            Vector3 targetOffset;
-            Quaternion targetRotation = originalRotation;
-
-            if (isRunning)
-            {
-                targetOffset = new Vector3(runOffset.x, runOffset.y, baseZ);
-                targetRotation *= Quaternion.Euler(0, 0, runTiltAngle);
-            }
-            else if (isWalking)
-            {
-                targetOffset = new Vector3(walkOffset.x, walkOffset.y, baseZ);
-            }
-            else
-            {
-                targetOffset = new Vector3(idleOffset.x, idleOffset.y, baseZ);
-            }
-
-            transform.localRotation = Quaternion.Lerp(transform.localRotation, targetRotation, Time.deltaTime * recoilSpeed);
-            transform.localPosition = Vector3.Lerp(transform.localPosition, originalPosition + targetOffset, Time.deltaTime * recoilSpeed);
+            UpdateWeaponPosition();
         }
 
         if (trail != null && !spinning)
@@ -134,11 +136,48 @@ public class Gun : MonoBehaviour
         }
     }
 
+    void UpdateWeaponPosition()
+    {
+        Animator charAnimator = null;
+        if (Character != null)
+        {
+            charAnimator = Character.GetComponent<Animator>();
+        }
+
+        bool isRunning = false;
+        bool isWalking = false;
+
+        if (charAnimator != null)
+        {
+            if (charAnimator.HasParameter("IsRunning")) isRunning = charAnimator.GetBool("IsRunning");
+            if (charAnimator.HasParameter("IsWalking")) isWalking = charAnimator.GetBool("IsWalking");
+        }
+
+        Vector3 targetOffset;
+        Quaternion targetRotation = originalRotation;
+
+        if (isRunning)
+        {
+            targetOffset = new Vector3(runOffset.x, runOffset.y, baseZ);
+            targetRotation *= Quaternion.Euler(0, 0, runTiltAngle);
+        }
+        else if (isWalking)
+        {
+            targetOffset = new Vector3(walkOffset.x, walkOffset.y, baseZ);
+        }
+        else
+        {
+            targetOffset = new Vector3(idleOffset.x, idleOffset.y, baseZ);
+        }
+
+        transform.localRotation = Quaternion.Lerp(transform.localRotation, targetRotation, Time.deltaTime * recoilSpeed);
+        transform.localPosition = Vector3.Lerp(transform.localPosition, originalPosition + targetOffset, Time.deltaTime * recoilSpeed);
+    }
+
     void Shoot()
     {
         if (animator != null) animator.SetTrigger("Shoot");
 
-        // Instancia o clone da bala, garantindo que o prefab nunca seja destruído
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
 
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
@@ -148,7 +187,6 @@ public class Gun : MonoBehaviour
             rb.velocity = direction * bulletSpeed;
         }
 
-        // Destrói apenas o clone depois de 3 segundos
         Destroy(bullet, 3f);
 
         Vector3 fixedPos = transform.localPosition;
@@ -170,6 +208,13 @@ public class Gun : MonoBehaviour
         spinElapsed = 0f;
         shotCount = 0;
 
+        if (audioSource != null && somGiro != null)
+        {
+            audioSource.volume = volumeGiro;
+            audioSource.clip = somGiro;
+            audioSource.Play();
+        }
+
         if (trail != null)
         {
             trail.Clear();
@@ -182,6 +227,11 @@ public class Gun : MonoBehaviour
         spinning = false;
         transform.localRotation = originalRotation;
 
+        if (audioSource != null && audioSource.clip == somGiro)
+        {
+            audioSource.Stop();
+        }
+
         if (trail != null)
         {
             trail.emitting = false;
@@ -189,14 +239,49 @@ public class Gun : MonoBehaviour
         }
     }
 
+void OnEnable()
+{
+
+    if (Time.timeScale > 0 && Time.timeSinceLevelLoad > 0.1f)
+    {
+        if (audioSource != null && somRecarga != null)
+        {
+            audioSource.PlayOneShot(somRecarga, volumeRecarga);
+        }
+    }
+}
+
+void OnDisable()
+{
+    isReloading = false;
+    spinning = false;
+    if (audioSource != null) audioSource.Stop();
+    StopAllCoroutines();
+}
+
     void Reload()
     {
-        if (!spinning)
+        if (!spinning && !isReloading)
         {
-            StartSpin();
-            currentAmmo = maxAmmo;
-            UpdateAmmoUI();
+            isReloading = true;
+            StartCoroutine(RotinaRecarga());
         }
+    }
+
+    IEnumerator RotinaRecarga()
+    {
+        StartSpin();
+        
+        yield return new WaitForSeconds(spinDuration);
+
+        if (audioSource != null && somRecarga != null)
+        {
+            audioSource.PlayOneShot(somRecarga, volumeRecarga);
+        }
+
+        currentAmmo = maxAmmo;
+        UpdateAmmoUI();
+        isReloading = false;
     }
 
     public void UpdateAmmoUI()

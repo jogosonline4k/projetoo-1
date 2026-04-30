@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 670460271030421679}
   - component: {fileID: 670460271030421678}
   - component: {fileID: 670460271030421683}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: BulletEscopeta
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -256,3 +256,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
+  hitNormalSound: {fileID: 8300000, guid: 3966d0f441b9f064a86a00dc1a78bb37, type: 3}
+  normalVolume: 0.5
+  hitTankSound: {fileID: 8300000, guid: 701443ebd8815d94f85ca2b9df61872d, type: 3}
+  tankVolume: 0.4

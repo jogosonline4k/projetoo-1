@@ -3,7 +3,7 @@
 public class ZombieSpawner : MonoBehaviour
 {
     [Header("Zombie Prefabs (Normal + Tank)")]
-    public GameObject[] zombiePrefabs;   // ← AQUI VOCÊ COLOCA O NORMAL E O TANK
+    public GameObject[] zombiePrefabs;
 
     public float spawnInterval = 2f;
     public int maxZombies = 10;
@@ -18,16 +18,22 @@ public class ZombieSpawner : MonoBehaviour
     public Transform playerTransform;
     public float minDistanceFromPlayer = 3f;
 
-    void Update()
-    {
-        timer += Time.deltaTime;
+void Awake()
+{
+    timer = 0f;
+}
 
-        if (timer >= spawnInterval && currentZombies < maxZombies)
-        {
-            SpawnZombie();
-            timer = 0f;
-        }
+void Update()
+{
+    if (Time.timeScale <= 0) return;
+
+    timer += Time.deltaTime;
+    if (timer >= spawnInterval && currentZombies < maxZombies)
+    {
+        SpawnZombie();
+        timer = 0f;
     }
+}
 
     void SpawnZombie()
     {
@@ -40,7 +46,6 @@ public class ZombieSpawner : MonoBehaviour
         Vector2 spawnPos = Vector2.zero;
         bool validPos = false;
 
-        // Evita spawnar perto demais do player (tenta até 15 vezes)
         for (int i = 0; i < 15; i++)
         {
             Vector2 randomOffset = Random.insideUnitCircle * spawnRadius;
@@ -61,19 +66,21 @@ public class ZombieSpawner : MonoBehaviour
         if (!validPos)
             return;
 
-        // Escolhe aleatoriamente ENTRE os prefabs disponíveis
         GameObject chosenPrefab = zombiePrefabs[Random.Range(0, zombiePrefabs.Length)];
-
         GameObject z = Instantiate(chosenPrefab, spawnPos, Quaternion.identity);
-
         z.transform.localScale = chosenPrefab.transform.localScale;
 
-        // Conteúdo do inimigo (pode ser EnemyZombie OU EnemyZombieTank)
         var ez = z.GetComponent<EnemyZombie>();
         var ezt = z.GetComponent<EnemyZombieTank>();
 
-        if (ez != null || ezt != null)
+        if (ez != null)
         {
+            ez.spawner = this;
+            currentZombies++;
+        }
+        else if (ezt != null)
+        {
+            ezt.spawner = this;
             currentZombies++;
         }
         else

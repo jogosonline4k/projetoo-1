@@ -2,6 +2,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(AudioSource))]
 public class PlayerMovement : MonoBehaviour
 {
     public Character Character;
@@ -14,6 +15,16 @@ public class PlayerMovement : MonoBehaviour
     public float dashCooldown = 0.4f;
 
     public ParticleSystem dashParticles;
+
+    [Header("Configurações de Áudio")]
+    public AudioSource audioSource;
+    public AudioClip somPassos;
+    public AudioClip somDash;
+    [Range(0f, 1f)] public float volumeCaminhada = 0.4f;
+    [Range(0f, 1f)] public float volumeCorrida = 0.7f;
+    [Range(0f, 1f)] public float volumeDash = 0.8f;
+    public float pitchCaminhada = 1.0f;
+    public float pitchCorrida = 1.3f;
 
     Rigidbody2D rb;
     Animator animator;
@@ -29,13 +40,27 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        
+        if (audioSource == null) audioSource = GetComponent<AudioSource>();
+
         rb.gravityScale = 0f;
         rb.freezeRotation = true;
+
+        if (audioSource != null)
+        {
+            audioSource.clip = somPassos;
+            audioSource.loop = true;
+            audioSource.playOnAwake = false;
+        }
     }
 
     void Update()
     {
-        if (Character != null && Character.isGameOver) return;
+        if (Character != null && Character.isGameOver)
+        {
+            PararSomDePassos();
+            return;
+        }
 
         dashCooldownTimer -= Time.deltaTime;
 
@@ -48,43 +73,27 @@ public class PlayerMovement : MonoBehaviour
             currentSpeed = shift ? runSpeed : walkSpeed;
             input = input.normalized * currentSpeed;
 
-            bool moving = input.sqrMagnitude > 0;
+            bool moving = input.sqrMagnitude > 0.01f;
             animator.SetBool("IsRunning", shift && moving);
             animator.SetBool("IsWalking", !shift && moving);
 
-            // Virar o personagem
+            if (moving)
+            {
+                GerenciarSomDePassos(shift);
+            }
+            else
+            {
+                PararSomDePassos();
+            }
+
             if (input.x > 0)
                 transform.localScale = new Vector3(3, 3, 1);
             else if (input.x < 0)
                 transform.localScale = new Vector3(-3, 3, 1);
 
-            // Dash
             if (Input.GetKeyDown(KeyCode.Q) && moving && dashCooldownTimer <= 0)
             {
-                dashCooldownTimer = dashCooldown;
-                dashTime = dashDuration;
-                isDashing = true;
-                dashDir = input.normalized;
-
-                if ((dashDir.y > 0 && rb.position.y >= maxY) ||
-                    (dashDir.y < 0 && rb.position.y <= minY))
-                    dashDir.y = 0;
-
-                Character.isInvincible = true;
-
-                if (dashParticles != null)
-                {
-                    // Ajusta Velocity over Lifetime X dependendo da direção
-                    var vol = dashParticles.velocityOverLifetime;
-                    vol.enabled = true;
-
-                    if (transform.localScale.x > 0) // virado para direita
-                        vol.x = new ParticleSystem.MinMaxCurve(-5f);
-                    else // virado para esquerda
-                        vol.x = new ParticleSystem.MinMaxCurve(5f);
-
-                    dashParticles.Play();
-                }
+                ExecutarDash();
             }
         }
         else
@@ -101,19 +110,61 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    void GerenciarSomDePassos(bool correndo)
+    {
+        if (audioSource == null || somPassos == null) return;
+
+        if (!audioSource.isPlaying)
+        {
+            audioSource.Play();
+        }
+
+        audioSource.volume = correndo ? volumeCorrida : volumeCaminhada;
+        audioSource.pitch = correndo ? pitchCorrida : pitchCaminhada;
+    }
+
+    void PararSomDePassos()
+    {
+        if (audioSource != null && audioSource.isPlaying)
+        {
+            audioSource.Stop();
+        }
+    }
+
+    void ExecutarDash()
+    {
+        PararSomDePassos(); 
+        
+        if (audioSource != null && somDash != null)
+        {
+            audioSource.PlayOneShot(somDash, volumeDash);
+        }
+
+        dashCooldownTimer = dashCooldown;
+        dashTime = dashDuration;
+        isDashing = true;
+        dashDir = input.normalized;
+
+        if ((dashDir.y > 0 && rb.position.y >= maxY) ||
+            (dashDir.y < 0 && rb.position.y <= minY))
+            dashDir.y = 0;
+
+        Character.isInvincible = true;
+
+        if (dashParticles != null)
+        {
+            var vol = dashParticles.velocityOverLifetime;
+            vol.enabled = true;
+            vol.x = new ParticleSystem.MinMaxCurve(transform.localScale.x > 0 ? -5f : 5f);
+            dashParticles.Play();
+        }
+    }
+
     void FixedUpdate()
     {
-        if (!isDashing)
-        {
-            Vector2 newPos = rb.position + input * Time.fixedDeltaTime;
-            newPos.y = Mathf.Clamp(newPos.y, minY, maxY);
-            rb.MovePosition(newPos);
-        }
-        else
-        {
-            Vector2 newPos = rb.position + dashDir * dashSpeed * Time.fixedDeltaTime;
-            newPos.y = Mathf.Clamp(newPos.y, minY, maxY);
-            rb.MovePosition(newPos);
-        }
+        Vector2 velocity = isDashing ? dashDir * dashSpeed : input;
+        Vector2 newPos = rb.position + velocity * Time.fixedDeltaTime;
+        newPos.y = Mathf.Clamp(newPos.y, minY, maxY);
+        rb.MovePosition(newPos);
     }
 }

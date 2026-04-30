@@ -4301,6 +4301,7 @@ GameObject:
   m_Component:
   - component: {fileID: 368196872}
   - component: {fileID: 368196871}
+  - component: {fileID: 368196873}
   m_Layer: 0
   m_Name: poste de energia (1)
   m_TagString: Untagged
@@ -4375,6 +4376,32 @@ Transform:
   m_Father: {fileID: 1966477354}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &368196873
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 368196870}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.03, y: 0.4}
+  m_EdgeRadius: 0
 --- !u!1 &374684391
 GameObject:
   m_ObjectHideFlags: 0
@@ -4385,6 +4412,7 @@ GameObject:
   m_Component:
   - component: {fileID: 374684392}
   - component: {fileID: 374684393}
+  - component: {fileID: 374684394}
   m_Layer: 0
   m_Name: poste de luz
   m_TagString: Untagged
@@ -4460,6 +4488,32 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &374684394
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374684391}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.8, y: 0.8}
+    newSize: {x: 0.8, y: 0.8}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.02, y: 0.4}
+  m_EdgeRadius: 0
 --- !u!1 &379114150
 GameObject:
   m_ObjectHideFlags: 0
@@ -6909,8 +6963,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 66, y: -7.9999}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: -3.92, y: -7.88}
+  m_SizeDelta: {x: 88.87, y: 110.04}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &528758147
 Animator:
@@ -8293,7 +8347,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.5}
+  m_Offset: {x: 0, y: 0.42}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -8304,7 +8358,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.82, y: 1.37}
+  m_Size: {x: 3.97, y: 1.37}
   m_EdgeRadius: 0
 --- !u!212 &620046302
 SpriteRenderer:
@@ -8889,7 +8943,8 @@ GameObject:
   m_Component:
   - component: {fileID: 649108995}
   - component: {fileID: 649108994}
-  - component: {fileID: 649108993}
+  - component: {fileID: 649108996}
+  - component: {fileID: 649108997}
   m_Layer: 0
   m_Name: Carro da policia
   m_TagString: Untagged
@@ -8897,32 +8952,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!61 &649108993
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 649108992}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.03, y: 0.12}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.5, y: 1}
-    newSize: {x: 1.5, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 0.12}
-  m_EdgeRadius: 0
 --- !u!212 &649108994
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -8992,6 +9021,38 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 2.2}
+--- !u!70 &649108996
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 649108992}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.03, y: 0}
+  m_Size: {x: 1.16, y: 0.18}
+  m_Direction: 1
+--- !u!70 &649108997
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 649108992}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.01, y: 0.18}
+  m_Size: {x: 0.57, y: 0.12}
+  m_Direction: 1
 --- !u!1 &656413622
 GameObject:
   m_ObjectHideFlags: 0
@@ -10511,7 +10572,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -10571,7 +10632,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 3}
+  m_Offset: {x: 0, y: 2.13}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -10582,7 +10643,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 2.2}
+  m_Size: {x: 0.6, y: 2.28}
   m_EdgeRadius: 0
 --- !u!1 &796271601
 GameObject:
@@ -10851,7 +10912,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.15}
+  m_Offset: {x: 0, y: 0.07}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -10862,7 +10923,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.46, y: 0.11}
+  m_Size: {x: 0.5, y: 0.11}
   m_EdgeRadius: 0
 --- !u!1 &817805256
 GameObject:
@@ -11600,7 +11661,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: -1962147956, guid: 9b89c30059afa41429e16f56bae02219, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -12223,7 +12284,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 929360016}
   m_LocalRotation: {x: -0, y: -0, z: 0.9999588, w: -0.009075483}
-  m_LocalPosition: {x: -0.055, y: -0.094, z: 0}
+  m_LocalPosition: {x: -0.055, y: 0.03, z: 0}
   m_LocalScale: {x: 3, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12245,7 +12306,7 @@ MonoBehaviour:
   m_ComponentVersion: 1
   m_LightType: 3
   m_BlendStyleIndex: 0
-  m_FalloffIntensity: 0.54
+  m_FalloffIntensity: 0.331
   m_Color: {r: 0.67058825, g: 0.39755416, b: 0.0392157, a: 1}
   m_Intensity: 2
   m_LightVolumeIntensity: 1
@@ -12266,8 +12327,8 @@ MonoBehaviour:
   m_LocalBounds:
     m_Center: {x: 0, y: -0.00000011920929, z: 0}
     m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
-  m_PointLightInnerAngle: 122.92
-  m_PointLightOuterAngle: 246.39
+  m_PointLightInnerAngle: 0
+  m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 1.4004911
   m_PointLightOuterRadius: 2.6159246
   m_ShapeLightParametricSides: 5
@@ -12570,7 +12631,7 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.05, y: 0.26}
+  m_Offset: {x: -0.05, y: 0.07}
   m_Size: {x: 0.2, y: 0.0001}
   m_Direction: 0
 --- !u!1 &942358413
@@ -12672,7 +12733,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.15}
+  m_Offset: {x: 0, y: 0.07}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -12683,7 +12744,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.46, y: 0.11}
+  m_Size: {x: 0.5, y: 0.11}
   m_EdgeRadius: 0
 --- !u!1 &964610709
 GameObject:
@@ -17933,6 +17994,7 @@ GameObject:
   - component: {fileID: 1002492679}
   - component: {fileID: 1002492680}
   - component: {fileID: 1002492681}
+  - component: {fileID: 1002492682}
   m_Layer: 8
   m_Name: Character
   m_TagString: Player
@@ -17985,7 +18047,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.35, y: 0.67}
+  m_Size: {x: 0.16, y: 0.42}
   m_EdgeRadius: 0
 --- !u!212 &1002492676
 SpriteRenderer:
@@ -18079,6 +18141,14 @@ MonoBehaviour:
   dashDuration: 0.17
   dashCooldown: 0.4
   dashParticles: {fileID: 1462329992}
+  audioSource: {fileID: 1002492682}
+  somPassos: {fileID: 8300000, guid: 4db80a6ce4647bb43a660a9eab611105, type: 3}
+  somDash: {fileID: 8300000, guid: e9b4ed7693fe49e4d99eef2d1788bcf3, type: 3}
+  volumeCaminhada: 0.4
+  volumeCorrida: 0.7
+  volumeDash: 0.8
+  pitchCaminhada: 1
+  pitchCorrida: 1.3
 --- !u!95 &1002492679
 Animator:
   serializedVersion: 5
@@ -18116,6 +18186,9 @@ MonoBehaviour:
   currentHP: 0
   isGameOver: 0
   isInvincible: 0
+  bloodParticle: {fileID: 1719382307}
+  hurtSound: {fileID: 8300000, guid: 3966d0f441b9f064a86a00dc1a78bb37, type: 3}
+  flashDuration: 0.15
 --- !u!114 &1002492681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18132,6 +18205,102 @@ MonoBehaviour:
   shotgun: {fileID: 1345854738}
   pistolIndicator: {fileID: 1603921111}
   shotgunIndicator: {fileID: 827657884}
+--- !u!82 &1002492682
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1002492673}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1008513754
 GameObject:
   m_ObjectHideFlags: 0
@@ -18313,6 +18482,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1015490803}
   - component: {fileID: 1015490802}
+  - component: {fileID: 1015490804}
   m_Layer: 0
   m_Name: poste de energia (2)
   m_TagString: Untagged
@@ -18387,6 +18557,32 @@ Transform:
   m_Father: {fileID: 1966477354}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1015490804
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1015490801}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.03, y: 0.4}
+  m_EdgeRadius: 0
 --- !u!1 &1016770803
 GameObject:
   m_ObjectHideFlags: 0
@@ -18840,6 +19036,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1050691695}
   - component: {fileID: 1050691696}
+  - component: {fileID: 1050691697}
   m_Layer: 0
   m_Name: poste de luz (3)
   m_TagString: Untagged
@@ -18915,6 +19112,32 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &1050691697
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1050691694}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.8, y: 0.8}
+    newSize: {x: 0.8, y: 0.8}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.02, y: 0.4}
+  m_EdgeRadius: 0
 --- !u!1 &1073737005
 GameObject:
   m_ObjectHideFlags: 0
@@ -20591,6 +20814,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1179378171}
   - component: {fileID: 1179378170}
+  - component: {fileID: 1179378172}
   m_Layer: 0
   m_Name: poste de luz (1)
   m_TagString: Untagged
@@ -20666,6 +20890,32 @@ Transform:
   m_Father: {fileID: 1966477354}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1179378172
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1179378169}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.8, y: 0.8}
+    newSize: {x: 0.8, y: 0.8}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.02, y: 0.4}
+  m_EdgeRadius: 0
 --- !u!1 &1192269339
 GameObject:
   m_ObjectHideFlags: 0
@@ -20676,6 +20926,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1192269340}
   - component: {fileID: 1192269341}
+  - component: {fileID: 1192269342}
   m_Layer: 0
   m_Name: poste de luz (1)
   m_TagString: Untagged
@@ -20751,6 +21002,32 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &1192269342
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1192269339}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.8, y: 0.8}
+    newSize: {x: 0.8, y: 0.8}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.02, y: 0.4}
+  m_EdgeRadius: 0
 --- !u!1 &1198614309
 GameObject:
   m_ObjectHideFlags: 0
@@ -22436,6 +22713,7 @@ GameObject:
   - component: {fileID: 1345854740}
   - component: {fileID: 1345854741}
   - component: {fileID: 1345854742}
+  - component: {fileID: 1345854743}
   m_Layer: 8
   m_Name: Escopeta
   m_TagString: Untagged
@@ -22488,6 +22766,13 @@ MonoBehaviour:
   ammoText: {fileID: 400528924}
   animator: {fileID: 1345854742}
   runTiltAngle: -65
+  audioSource: {fileID: 1345854743}
+  somTiro: {fileID: 8300000, guid: 32e81a35de0127840b71d5d34a46df7a, type: 3}
+  volumeTiro: 0.8
+  somRecarga: {fileID: 8300000, guid: 1817526310d07a74e98c1a4b094f5b59, type: 3}
+  volumeRecarga: 0.5
+  somGiro: {fileID: 8300000, guid: 1a93f14a6eabf724a8f9393f89024fc7, type: 3}
+  volumeGiro: 0.3
   idleOffset: {x: 0, y: 0}
   walkOffset: {x: 0.03, y: 0.02}
   runOffset: {x: 0.05, y: -0.02}
@@ -22514,7 +22799,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -22567,6 +22852,102 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!82 &1345854743
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1345854738}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1347844607
 GameObject:
   m_ObjectHideFlags: 0
@@ -29573,6 +29954,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1486553626}
   - component: {fileID: 1486553627}
+  - component: {fileID: 1486553628}
   m_Layer: 0
   m_Name: poste de energia (4)
   m_TagString: Untagged
@@ -29647,6 +30029,32 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &1486553628
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1486553625}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.03, y: 0.4}
+  m_EdgeRadius: 0
 --- !u!1 &1500226506
 GameObject:
   m_ObjectHideFlags: 0
@@ -29911,7 +30319,6 @@ GameObject:
   - component: {fileID: 1521877723}
   - component: {fileID: 1521877722}
   - component: {fileID: 1521877721}
-  - component: {fileID: 1521877725}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -30007,24 +30414,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1521877725
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1521877720}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 136f65c13fda02349be530e95c34eb66, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainMenuPanel: {fileID: 0}
-  creditsPanel: {fileID: 0}
-  gameUI: {fileID: 0}
-  fadeImageObject: {fileID: 0}
-  fadeAnimator: {fileID: 0}
-  tempoDeEspera: 1
 --- !u!1 &1529781573
 GameObject:
   m_ObjectHideFlags: 0
@@ -30287,6 +30676,102 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8663336794831625175, guid: 6465a38faf94a794fabab011bd318382, type: 3}
   m_PrefabInstance: {fileID: 8663336796375672461}
   m_PrefabAsset: {fileID: 0}
+--- !u!82 &1544060256
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544060249}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1544113285
 GameObject:
   m_ObjectHideFlags: 0
@@ -30717,6 +31202,102 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4530513105086656116, guid: beb65426676b6874685eaa328d456bb4, type: 3}
   m_PrefabInstance: {fileID: 4530513103762457843}
   m_PrefabAsset: {fileID: 0}
+--- !u!82 &1592961677
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1592961668}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1594640210
 GameObject:
   m_ObjectHideFlags: 0
@@ -30954,8 +31535,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1603971085}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.07688692, y: -1.2543671, z: 8.44}
-  m_LocalScale: {x: 2.9734094, y: 0.6029773, z: 1}
+  m_LocalPosition: {x: -0.07193, y: -1.25396, z: 8.44}
+  m_LocalScale: {x: 3.0000126, y: 0.6037911, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 448772232}
@@ -31221,6 +31802,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1633994813}
   - component: {fileID: 1633994814}
+  - component: {fileID: 1633994815}
   m_Layer: 0
   m_Name: poste de energia (5)
   m_TagString: Untagged
@@ -31295,6 +31877,32 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &1633994815
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1633994812}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.03, y: 0.4}
+  m_EdgeRadius: 0
 --- !u!1 &1648653207
 GameObject:
   m_ObjectHideFlags: 0
@@ -31712,7 +32320,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -8}
+  m_AnchoredPosition: {x: 0, y: -7.9999084}
   m_SizeDelta: {x: 68.0082, y: 51.006}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1702085333
@@ -32505,6 +33113,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1738222807}
   - component: {fileID: 1738222806}
+  - component: {fileID: 1738222808}
   m_Layer: 0
   m_Name: poste de energia (3)
   m_TagString: Untagged
@@ -32579,6 +33188,32 @@ Transform:
   m_Father: {fileID: 1966477354}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1738222808
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1738222805}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.03, y: 0.4}
+  m_EdgeRadius: 0
 --- !u!1001 &1745980931
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32633,6 +33268,10 @@ PrefabInstance:
     - target: {fileID: 7251795119048681341, guid: 64036b986f09f734195e7ae9498b7000, type: 3}
       propertyPath: m_Name
       value: Blood Explosion (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7251795119048681341, guid: 64036b986f09f734195e7ae9498b7000, type: 3}
+      propertyPath: m_Layer
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7251795119048681343, guid: 64036b986f09f734195e7ae9498b7000, type: 3}
       propertyPath: ShapeModule.radius.value
@@ -32724,7 +33363,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7251795119048681343, guid: 64036b986f09f734195e7ae9498b7000, type: 3}
       propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.scalar
-      value: 15
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64036b986f09f734195e7ae9498b7000, type: 3}
@@ -32992,6 +33631,7 @@ GameObject:
   - component: {fileID: 1759947943}
   - component: {fileID: 1759947945}
   - component: {fileID: 1759947946}
+  - component: {fileID: 1759947947}
   m_Layer: 8
   m_Name: Gun
   m_TagString: Untagged
@@ -33043,6 +33683,13 @@ MonoBehaviour:
   ammoText: {fileID: 400528924}
   animator: {fileID: 1759947946}
   runTiltAngle: -45
+  audioSource: {fileID: 1759947947}
+  somTiro: {fileID: 8300000, guid: 58b2e715a810c854597b2e3eeb3a0a0e, type: 3}
+  volumeTiro: 0.5
+  somRecarga: {fileID: 8300000, guid: 1dba8d0793de59b4a8f2a915f8f0c99b, type: 3}
+  volumeRecarga: 0.7
+  somGiro: {fileID: 8300000, guid: 1a93f14a6eabf724a8f9393f89024fc7, type: 3}
+  volumeGiro: 0.3
   idleOffset: {x: 0, y: 0}
   walkOffset: {x: -0.01, y: 0}
   runOffset: {x: -0.01, y: -0.03}
@@ -33066,7 +33713,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -33119,6 +33766,102 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!82 &1759947947
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1759947941}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1765346885
 GameObject:
   m_ObjectHideFlags: 0
@@ -33348,6 +34091,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1773886087}
   - component: {fileID: 1773886088}
+  - component: {fileID: 1773886089}
   m_Layer: 0
   m_Name: poste de luz (4)
   m_TagString: Untagged
@@ -33422,6 +34166,32 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &1773886089
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1773886086}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.8, y: 0.8}
+    newSize: {x: 0.8, y: 0.8}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.02, y: 0.4}
+  m_EdgeRadius: 0
 --- !u!1 &1783227927
 GameObject:
   m_ObjectHideFlags: 0
@@ -36370,7 +37140,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.42}
+  m_Offset: {x: 0, y: 0.22}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -36381,7 +37151,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.2, y: 0.22}
+  m_Size: {x: 1.08, y: 0.25}
   m_EdgeRadius: 0
 --- !u!212 &1986469904
 SpriteRenderer:
@@ -36544,6 +37314,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1993614109}
   - component: {fileID: 1993614110}
+  - component: {fileID: 1993614111}
   m_Layer: 0
   m_Name: poste de energia (6)
   m_TagString: Untagged
@@ -36618,6 +37389,32 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &1993614111
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1993614108}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.03, y: 0.4}
+  m_EdgeRadius: 0
 --- !u!1 &1996503424
 GameObject:
   m_ObjectHideFlags: 0
@@ -37444,6 +38241,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2022213563}
   - component: {fileID: 2022213562}
+  - component: {fileID: 2022213564}
   m_Layer: 0
   m_Name: poste de energia
   m_TagString: Untagged
@@ -37518,6 +38316,32 @@ Transform:
   m_Father: {fileID: 1966477354}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &2022213564
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2022213561}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.03, y: 0.4}
+  m_EdgeRadius: 0
 --- !u!1 &2022511049
 GameObject:
   m_ObjectHideFlags: 0
@@ -37878,6 +38702,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2034385583}
   - component: {fileID: 2034385584}
+  - component: {fileID: 2034385585}
   m_Layer: 0
   m_Name: poste de luz (2)
   m_TagString: Untagged
@@ -37953,6 +38778,32 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &2034385585
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2034385582}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.8, y: 0.8}
+    newSize: {x: 0.8, y: 0.8}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.02, y: 0.4}
+  m_EdgeRadius: 0
 --- !u!1 &2037637828
 GameObject:
   m_ObjectHideFlags: 0
@@ -38304,7 +39155,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.15}
+  m_Offset: {x: 0, y: 0.07}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -38315,7 +39166,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.46, y: 0.11}
+  m_Size: {x: 0.5, y: 0.11}
   m_EdgeRadius: 0
 --- !u!1 &2055555315
 GameObject:
@@ -39549,19 +40400,39 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3907697708370825211, guid: beb65426676b6874685eaa328d456bb4, type: 3}
       propertyPath: moveSpeed
-      value: 2.5
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 3907697708370825211, guid: beb65426676b6874685eaa328d456bb4, type: 3}
+      propertyPath: stepSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 4db80a6ce4647bb43a660a9eab611105, type: 3}
+    - target: {fileID: 3907697708370825211, guid: beb65426676b6874685eaa328d456bb4, type: 3}
       propertyPath: chaseSpeed
-      value: 2.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3907697708370825211, guid: beb65426676b6874685eaa328d456bb4, type: 3}
       propertyPath: patrolTime
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3907697708370825211, guid: beb65426676b6874685eaa328d456bb4, type: 3}
+      propertyPath: stepVolume
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 3907697708370825211, guid: beb65426676b6874685eaa328d456bb4, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 1592961677}
+    - target: {fileID: 3907697708370825211, guid: beb65426676b6874685eaa328d456bb4, type: 3}
       propertyPath: chargeSpeed
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3907697708370825211, guid: beb65426676b6874685eaa328d456bb4, type: 3}
+      propertyPath: voiceSource
+      value: 
+      objectReference: {fileID: 1592961677}
+    - target: {fileID: 3907697708370825211, guid: beb65426676b6874685eaa328d456bb4, type: 3}
+      propertyPath: voiceVolume
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 3907697708370825211, guid: beb65426676b6874685eaa328d456bb4, type: 3}
       propertyPath: attackCooldown
@@ -39577,7 +40448,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3907697708370825211, guid: beb65426676b6874685eaa328d456bb4, type: 3}
       propertyPath: chargeDuration
-      value: 0.5
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3907697708370825211, guid: beb65426676b6874685eaa328d456bb4, type: 3}
       propertyPath: knockbackForce
@@ -39615,6 +40486,22 @@ PrefabInstance:
       propertyPath: bloodPrefabs.Array.data[2]
       value: 
       objectReference: {fileID: 515961422}
+    - target: {fileID: 3907697708370825211, guid: beb65426676b6874685eaa328d456bb4, type: 3}
+      propertyPath: randomVoices.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 461c190063b3c0a46a08de01c73bd242, type: 3}
+    - target: {fileID: 3907697708370825211, guid: beb65426676b6874685eaa328d456bb4, type: 3}
+      propertyPath: randomVoices.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 15ddedcafe3855342a15dd1b235ae321, type: 3}
+    - target: {fileID: 3907697708370825211, guid: beb65426676b6874685eaa328d456bb4, type: 3}
+      propertyPath: randomVoices.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 429c78bfe7f6e6b40b9dea38b733be38, type: 3}
+    - target: {fileID: 3907697708370825211, guid: beb65426676b6874685eaa328d456bb4, type: 3}
+      propertyPath: randomVoices.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: cc8da66eafb175b44abc3e2a303a66b9, type: 3}
     - target: {fileID: 4530513105086656116, guid: beb65426676b6874685eaa328d456bb4, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -39829,6 +40716,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Blood Explosion
       objectReference: {fileID: 0}
+    - target: {fileID: 7251795119048681341, guid: 64036b986f09f734195e7ae9498b7000, type: 3}
+      propertyPath: m_Layer
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7251795119048681343, guid: 64036b986f09f734195e7ae9498b7000, type: 3}
       propertyPath: ShapeModule.radius.value
       value: 0.1
@@ -39891,9 +40782,21 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8663336794831625169, guid: 6465a38faf94a794fabab011bd318382, type: 3}
+      propertyPath: stepSound
+      value: 
+      objectReference: {fileID: 8300000, guid: ad32c29f38f6c0341935f5f6e9b4b70b, type: 3}
+    - target: {fileID: 8663336794831625169, guid: 6465a38faf94a794fabab011bd318382, type: 3}
       propertyPath: chaseSpeed
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 8663336794831625169, guid: 6465a38faf94a794fabab011bd318382, type: 3}
+      propertyPath: stepVolume
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 8663336794831625169, guid: 6465a38faf94a794fabab011bd318382, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 1544060256}
     - target: {fileID: 8663336794831625169, guid: 6465a38faf94a794fabab011bd318382, type: 3}
       propertyPath: bloodAmount
       value: 3
@@ -39946,6 +40849,22 @@ PrefabInstance:
       propertyPath: bloodPrefabs.Array.data[2]
       value: 
       objectReference: {fileID: 298172292}
+    - target: {fileID: 8663336794831625169, guid: 6465a38faf94a794fabab011bd318382, type: 3}
+      propertyPath: randomVoices.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 461c190063b3c0a46a08de01c73bd242, type: 3}
+    - target: {fileID: 8663336794831625169, guid: 6465a38faf94a794fabab011bd318382, type: 3}
+      propertyPath: randomVoices.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 15ddedcafe3855342a15dd1b235ae321, type: 3}
+    - target: {fileID: 8663336794831625169, guid: 6465a38faf94a794fabab011bd318382, type: 3}
+      propertyPath: randomVoices.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 429c78bfe7f6e6b40b9dea38b733be38, type: 3}
+    - target: {fileID: 8663336794831625169, guid: 6465a38faf94a794fabab011bd318382, type: 3}
+      propertyPath: randomVoices.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: cc8da66eafb175b44abc3e2a303a66b9, type: 3}
     - target: {fileID: 8663336794831625172, guid: 6465a38faf94a794fabab011bd318382, type: 3}
       propertyPath: m_Name
       value: Zumbi Civil

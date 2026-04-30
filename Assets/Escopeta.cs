@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System.Collections;
 
 public class Escopeta : MonoBehaviour
 {
@@ -27,6 +28,17 @@ public class Escopeta : MonoBehaviour
     public float runTiltAngle = -45f;
     private float baseZ;
 
+    [Header("Configurações de Áudio")]
+    public AudioSource audioSource;
+    public AudioClip somTiro;
+    [Range(0f, 1f)] public float volumeTiro = 0.8f;
+    public AudioClip somRecarga;
+    [Range(0f, 1f)] public float volumeRecarga = 0.5f;
+    public AudioClip somGiro;
+    [Range(0f, 1f)] public float volumeGiro = 0.3f;
+
+    private bool isReloading = false;
+
     [Header("Posição da Arma")]
     public Vector2 idleOffset = new Vector2(0, 0);
     public Vector2 walkOffset = new Vector2(0.05f, 0);
@@ -35,7 +47,7 @@ public class Escopeta : MonoBehaviour
     [Header("Shotgun Settings")]
     public int shotsPerFire = 5;       
     public float spreadAngle = 10f;    
-    public float fireRate = 0.2f;      
+    public float fireRate = 0.5f;      
     private float nextFireTime = 0f;
 
     void Start()
@@ -53,32 +65,56 @@ public class Escopeta : MonoBehaviour
         }
 
         renderers = GetComponentsInChildren<SpriteRenderer>();
+
+        if (audioSource == null) audioSource = GetComponent<AudioSource>();
+        if (audioSource != null)
+        {
+            audioSource.playOnAwake = false;
+            audioSource.volume = volumeGiro;
+        }
     }
 
     void Update()
     {
         if (Character != null && Character.isGameOver) return;
 
+        if (UnityEngine.EventSystems.EventSystem.current != null && 
+            UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.F)) ToggleGunVisibility();
         if (!gunVisible) return;
 
-        if (currentAmmo <= 0 && !spinning) Reload();
+        if (currentAmmo <= 0 && !spinning && !isReloading)
+        {
+            Reload();
+        }
 
-        if (Input.GetMouseButtonDown(0) && !spinning && currentAmmo > 0 && Time.time >= nextFireTime)
+        if (Input.GetMouseButtonDown(0) && !spinning && !isReloading && currentAmmo > 0 && Time.time >= nextFireTime)
         {
             nextFireTime = Time.time + fireRate;
             ShootShotgun();
             ApplyRecoil();
             currentAmmo--;
             UpdateAmmoUI();
-
             shotCount++;
+
+            if (audioSource != null && somTiro != null)
+            {
+                audioSource.PlayOneShot(somTiro, volumeTiro);
+            }
+
             if (shotCount >= 20) StartSpin();
         }
 
-        if (Input.GetKey(KeyCode.R) && !spinning) Reload();
+        if (Input.GetKeyDown(KeyCode.R) && !spinning && !isReloading && currentAmmo < maxAmmo)
+        {
+            Reload();
+        }
 
-        HandleSpinAndAnimation();
+        HandleSpinAndMovement();
     }
 
     void ShootShotgun()
@@ -88,8 +124,6 @@ public class Escopeta : MonoBehaviour
         for (int i = 0; i < shotsPerFire; i++)
         {
             float angleOffset = Random.Range(-spreadAngle, spreadAngle);
-
-            // Instancia apenas o clone, nunca o prefab
             GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
             bullet.transform.localScale = bulletPrefab.transform.localScale;
 
@@ -100,8 +134,6 @@ public class Escopeta : MonoBehaviour
                 Vector2 direction = Quaternion.Euler(0, 0, angleOffset) * new Vector2(directionX, 0);
                 rb.velocity = direction.normalized * bulletSpeed;
             }
-
-            // Destrói somente o clone depois de 3 segundos
             Destroy(bullet, 3f);
         }
 
@@ -124,6 +156,13 @@ public class Escopeta : MonoBehaviour
         spinElapsed = 0f;
         shotCount = 0;
 
+        if (audioSource != null && somGiro != null)
+        {
+            audioSource.volume = volumeGiro;
+            audioSource.clip = somGiro;
+            audioSource.Play();
+        }
+
         if (trail != null)
         {
             trail.Clear();
@@ -136,6 +175,11 @@ public class Escopeta : MonoBehaviour
         spinning = false;
         transform.localRotation = originalRotation;
 
+        if (audioSource != null && audioSource.clip == somGiro)
+        {
+            audioSource.Stop();
+        }
+
         if (trail != null)
         {
             trail.emitting = false;
@@ -143,14 +187,47 @@ public class Escopeta : MonoBehaviour
         }
     }
 
+void OnEnable()
+{
+    if (Time.timeScale > 0 && Time.timeSinceLevelLoad > 0.1f)
+    {
+        if (audioSource != null && somRecarga != null)
+        {
+            audioSource.PlayOneShot(somRecarga, volumeRecarga);
+        }
+    }
+}
+
+void OnDisable()
+{
+    isReloading = false;
+    spinning = false;
+    if (audioSource != null) audioSource.Stop();
+    StopAllCoroutines();
+}
+
     void Reload()
     {
-        if (!spinning)
+        if (!spinning && !isReloading)
         {
-            StartSpin();
-            currentAmmo = maxAmmo;
-            UpdateAmmoUI();
+            isReloading = true;
+            StartCoroutine(RotinaRecarga());
         }
+    }
+
+    IEnumerator RotinaRecarga()
+    {
+        StartSpin();
+        yield return new WaitForSeconds(spinDuration);
+
+        if (audioSource != null && somRecarga != null)
+        {
+            audioSource.PlayOneShot(somRecarga, volumeRecarga);
+        }
+
+        currentAmmo = maxAmmo;
+        UpdateAmmoUI();
+        isReloading = false;
     }
 
     public void UpdateAmmoUI()
@@ -161,20 +238,16 @@ public class Escopeta : MonoBehaviour
     void ToggleGunVisibility()
     {
         gunVisible = !gunVisible;
-
-        foreach (SpriteRenderer r in renderers)
-            r.enabled = gunVisible;
-
+        foreach (SpriteRenderer r in renderers) r.enabled = gunVisible;
         if (trail != null)
         {
             trail.emitting = false;
             trail.Clear();
         }
-
         if (ammoText != null) ammoText.enabled = gunVisible;
     }
 
-    void HandleSpinAndAnimation()
+    void HandleSpinAndMovement()
     {
         if (spinning)
         {
@@ -203,7 +276,8 @@ public class Escopeta : MonoBehaviour
 
             transform.localRotation = Quaternion.Lerp(transform.localRotation, targetRotation, Time.deltaTime * recoilSpeed);
             transform.localPosition = Vector3.Lerp(transform.localPosition, originalPosition + targetOffset, Time.deltaTime * recoilSpeed);
-            Debug.Log("pirocoto is CUTE");
         }
+
+        if (trail != null && !spinning) trail.emitting = false;
     }
 }
