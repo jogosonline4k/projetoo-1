@@ -18,8 +18,8 @@ public class EnemyZombieTank : MonoBehaviour
     public float attackCooldown = 1f;
 
     [Header("Charge Attack")]
-    public float chargeSpeed = 9f;
-    public float chargeDuration = 0.6f;
+    public float chargeSpeed = 25f;
+    public float chargeDuration = 0.5f;
     public float chargeCooldown = 7f;
 
     [Header("Audio")]
@@ -38,37 +38,40 @@ public class EnemyZombieTank : MonoBehaviour
     public float bloodYMin = -2f;
     public float bloodYMax = 2f;
     public int bloodAmount = 3;
-
-    [Header("Blood Scale")]
     public Vector2 bloodScaleMin = new Vector2(0.8f, 0.8f);
     public Vector2 bloodScaleMax = new Vector2(1.3f, 1.3f);
-
-    [Header("Blood Rotation")]
     public bool lockBloodRotation = false;
 
-    int currentHP;
-    float nextAttackTime = 0f;
-    Rigidbody2D rb;
-    SpriteRenderer[] sprites;
-    Color[] originalColors;
-    Vector2 patrolDir;
-    float patrolTimer;
-    float waitTimer;
-    Character playerCharacter;
-    Transform playerTransform;
+    [Header("Visual (Obrigatório)")]
+    public Transform spriteChild;
+
+    private int currentHP;
+    private float nextAttackTime = 0f;
+    private Rigidbody2D rb;
+    private Animator animator;
+    private SpriteRenderer[] sprites;
+    private Color[] originalColors;
+    private Vector2 patrolDir;
+    private float patrolTimer;
+    private float waitTimer;
+    private Character playerCharacter;
+    private Transform playerTransform;
     [HideInInspector] public ZombieSpawner spawner;
-    Animator animator;
-    bool isCharging = false;
-    float chargeTimer = 0f;
-    int facingSign = 1;
-    Vector3 originalLocalScale;
+    private bool isCharging = false;
+    private float chargeTimer = 0f;
+    private Vector3 originalSpriteScale;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
+        
         rb.gravityScale = 0f;
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+
+        if (spriteChild == null && animator != null) spriteChild = animator.transform;
+        if (spriteChild != null) originalSpriteScale = spriteChild.localScale;
 
         sprites = GetComponentsInChildren<SpriteRenderer>();
         originalColors = new Color[sprites.Length];
@@ -80,13 +83,6 @@ public class EnemyZombieTank : MonoBehaviour
         Character ch = FindObjectOfType<Character>();
         if (ch != null) { playerCharacter = ch; playerTransform = ch.transform; }
 
-        patrolTimer = patrolTime;
-        waitTimer = waitTime;
-        patrolDir = NewPatrolDirection();
-        chargeTimer = chargeCooldown;
-        originalLocalScale = transform.localScale;
-        facingSign = (transform.localScale.x < 0f) ? -1 : 1;
-
         if (audioSource == null) audioSource = GetComponent<AudioSource>();
         if (audioSource != null)
         {
@@ -95,25 +91,29 @@ public class EnemyZombieTank : MonoBehaviour
             audioSource.clip = stepSound;
         }
 
+        patrolTimer = patrolTime;
+        waitTimer = waitTime;
+        patrolDir = NewPatrolDirection();
+        chargeTimer = chargeCooldown;
+
+        Vector3 spawnSeguro = transform.position;
+        spawnSeguro.y = Mathf.Clamp(spawnSeguro.y, yMin, yMax);
+        transform.position = spawnSeguro;
+
         StartCoroutine(RandomVoiceRoutine());
     }
 
     void Update()
     {
-        if (playerTransform == null) return;
+        if (playerTransform == null || isCharging) return;
 
-        if (!isCharging)
+        chargeTimer -= Time.deltaTime;
+        if (chargeTimer <= 0)
         {
-            chargeTimer -= Time.deltaTime;
-            if (chargeTimer <= 0)
-            {
-                StartCoroutine(DoCharge());
-                chargeTimer = chargeCooldown;
-                return;
-            }
+            StartCoroutine(DoCharge());
+            chargeTimer = chargeCooldown;
+            return;
         }
-
-        if (isCharging) return;
 
         float dist = Vector2.Distance(transform.position, playerTransform.position);
         if (dist <= visionRange)
@@ -127,12 +127,7 @@ public class EnemyZombieTank : MonoBehaviour
     void HandleMovementAudio()
     {
         if (audioSource == null || stepSound == null) return;
-
-        if (Time.timeScale <= 0)
-        {
-            if (audioSource.isPlaying) audioSource.Pause();
-            return;
-        }
+        if (Time.timeScale <= 0) { if (audioSource.isPlaying) audioSource.Pause(); return; }
 
         bool moving = rb.velocity.magnitude > 0.1f || animator.GetBool("isMoving");
 
@@ -153,23 +148,20 @@ public class EnemyZombieTank : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(Random.Range(10f, 20f));
-
             if (audioSource != null && randomVoices.Length > 0 && Time.timeScale > 0)
             {
                 AudioClip clip = randomVoices[Random.Range(0, randomVoices.Length)];
-                if (clip != null)
-                    audioSource.PlayOneShot(clip, voiceVolume);
+                if (clip != null) audioSource.PlayOneShot(clip, voiceVolume);
             }
         }
     }
 
-    void UpdateSpriteDirection(Vector2 dir)
+    void UpdateSpriteDirection(float moveX)
     {
-        float threshold = 0.1f;
-        if (dir.x > threshold) facingSign = 1;
-        else if (dir.x < -threshold) facingSign = -1;
+        if (spriteChild == null || Mathf.Abs(moveX) < 0.01f) return;
 
-        transform.localScale = new Vector3(Mathf.Abs(originalLocalScale.x) * facingSign, originalLocalScale.y, originalLocalScale.z);
+        float sign = (moveX > 0) ? 1f : -1f;
+        spriteChild.localScale = new Vector3(Mathf.Abs(originalSpriteScale.x) * sign, originalSpriteScale.y, originalSpriteScale.z);
     }
 
     void Patrol()
@@ -180,15 +172,11 @@ public class EnemyZombieTank : MonoBehaviour
         if (patrolTimer > 0f)
         {
             moving = true;
-            Vector2 pos = rb.position;
             Vector2 movement = patrolDir * moveSpeed * Time.deltaTime;
-            pos += movement;
-            pos.y = Mathf.Clamp(pos.y, yMin, yMax);
-            rb.MovePosition(pos);
-            UpdateSpriteDirection(movement);
-
-            if (rb.position.y <= yMin + 0.05f || rb.position.y >= yMax - 0.05f)
-                patrolDir = NewPatrolDirection();
+            Vector2 targetPos = rb.position + movement;
+            targetPos.y = Mathf.Clamp(targetPos.y, yMin, yMax);
+            rb.MovePosition(targetPos);
+            UpdateSpriteDirection(patrolDir.x);
         }
         else
         {
@@ -204,19 +192,13 @@ public class EnemyZombieTank : MonoBehaviour
         animator.SetBool("isMoving", moving);
     }
 
-    Vector2 NewPatrolDirection()
-    {
-        Vector2 dir = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
-        return dir.magnitude < 0.1f ? Vector2.right : dir.normalized;
-    }
-
     void ChasePlayer()
     {
         Vector2 dir = ((Vector2)playerTransform.position - rb.position).normalized;
-        Vector2 pos = rb.position + dir * chaseSpeed * Time.deltaTime;
-        pos.y = Mathf.Clamp(pos.y, yMin, yMax);
-        rb.MovePosition(pos);
-        UpdateSpriteDirection(dir);
+        Vector2 targetPos = rb.position + dir * chaseSpeed * Time.deltaTime;
+        targetPos.y = Mathf.Clamp(targetPos.y, yMin, yMax);
+        rb.MovePosition(targetPos);
+        UpdateSpriteDirection(dir.x);
         animator.SetBool("isMoving", true);
     }
 
@@ -226,12 +208,17 @@ public class EnemyZombieTank : MonoBehaviour
         animator.SetBool("isCharging", true);
         animator.SetBool("isMoving", false);
 
-        float timer = 0f;
-        float dirX = facingSign;
+        Vector2 chargeDirection = ((Vector2)playerTransform.position - rb.position).normalized;
+        UpdateSpriteDirection(chargeDirection.x);
 
+        yield return new WaitForSeconds(0.3f);
+
+        float timer = 0f;
         while (timer < chargeDuration)
         {
-            rb.velocity = new Vector2(dirX * chargeSpeed, 0);
+            Vector2 targetPos = rb.position + chargeDirection * chargeSpeed * Time.deltaTime;
+            targetPos.y = Mathf.Clamp(targetPos.y, yMin, yMax);
+            rb.MovePosition(targetPos);
             timer += Time.deltaTime;
             yield return null;
         }
@@ -294,6 +281,12 @@ public class EnemyZombieTank : MonoBehaviour
             decal.transform.rotation = lockBloodRotation ? Quaternion.identity : Quaternion.Euler(0, 0, Random.Range(0f, 360f));
             decal.transform.localScale = new Vector3(Random.Range(bloodScaleMin.x, bloodScaleMax.x), Random.Range(bloodScaleMin.y, bloodScaleMax.y), 1);
         }
+    }
+
+    Vector2 NewPatrolDirection()
+    {
+        Vector2 dir = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+        return dir.magnitude < 0.1f ? Vector2.right : dir.normalized;
     }
 
     void OnTriggerStay2D(Collider2D other)

@@ -17,6 +17,7 @@ public class Escopeta : MonoBehaviour
     public int spinTurns = 3;
     public TrailRenderer trail;
     public TMP_Text ammoText;
+    
     private Vector3 originalPosition;
     private Quaternion originalRotation;
     private int shotCount = 0;
@@ -25,8 +26,8 @@ public class Escopeta : MonoBehaviour
     private bool gunVisible = true;
     public Animator animator;
     private SpriteRenderer[] renderers;
-    public float runTiltAngle = -45f;
     private float baseZ;
+    private Vector3 initialScale;
 
     [Header("Configurações de Áudio")]
     public AudioSource audioSource;
@@ -43,6 +44,10 @@ public class Escopeta : MonoBehaviour
     public Vector2 idleOffset = new Vector2(0, 0);
     public Vector2 walkOffset = new Vector2(0.05f, 0);
     public Vector2 runOffset = new Vector2(0.1f, -0.05f);
+    
+    [Header("Ajustes de Lado")]
+    public float rightSideX = 0.2f;
+    public float leftSideX = -0.2f;
 
     [Header("Shotgun Settings")]
     public int shotsPerFire = 5;       
@@ -55,6 +60,8 @@ public class Escopeta : MonoBehaviour
         originalPosition = transform.localPosition;
         originalRotation = transform.localRotation;
         baseZ = transform.localPosition.z;
+        initialScale = transform.localScale;
+        
         currentAmmo = maxAmmo;
         UpdateAmmoUI();
 
@@ -87,6 +94,8 @@ public class Escopeta : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F)) ToggleGunVisibility();
         if (!gunVisible) return;
 
+        if (!spinning) HandleAiming();
+
         if (currentAmmo <= 0 && !spinning && !isReloading)
         {
             Reload();
@@ -102,9 +111,7 @@ public class Escopeta : MonoBehaviour
             shotCount++;
 
             if (audioSource != null && somTiro != null)
-            {
                 audioSource.PlayOneShot(somTiro, volumeTiro);
-            }
 
             if (shotCount >= 20) StartSpin();
         }
@@ -117,6 +124,23 @@ public class Escopeta : MonoBehaviour
         HandleSpinAndMovement();
     }
 
+    void HandleAiming()
+    {
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 direction = mousePos - transform.position;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+        transform.rotation = Quaternion.Euler(0, 0, angle);
+
+        Vector3 scale = initialScale;
+        if (mousePos.x < transform.position.x)
+            scale.y = -initialScale.y;
+        else
+            scale.y = initialScale.y;
+        
+        transform.localScale = scale;
+    }
+
     void ShootShotgun()
     {
         if (animator != null) animator.SetTrigger("Shoot");
@@ -124,30 +148,56 @@ public class Escopeta : MonoBehaviour
         for (int i = 0; i < shotsPerFire; i++)
         {
             float angleOffset = Random.Range(-spreadAngle, spreadAngle);
-            GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+            Quaternion bulletRotation = firePoint.rotation * Quaternion.Euler(0, 0, angleOffset);
+            
+            GameObject bullet = Instantiate(bulletPrefab, firePoint.position, bulletRotation);
             bullet.transform.localScale = bulletPrefab.transform.localScale;
 
             Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
             if (rb != null)
             {
-                float directionX = Mathf.Sign(transform.parent.localScale.x);
-                Vector2 direction = Quaternion.Euler(0, 0, angleOffset) * new Vector2(directionX, 0);
-                rb.velocity = direction.normalized * bulletSpeed;
+                rb.velocity = bullet.transform.right * bulletSpeed;
             }
             Destroy(bullet, 3f);
         }
-
-        Vector3 fixedPos = transform.localPosition;
-        fixedPos.z = baseZ;
-        transform.localPosition = fixedPos;
     }
 
     void ApplyRecoil()
     {
-        transform.localRotation = Quaternion.Euler(0, 0, recoilAngle);
-        Vector3 pos = transform.localPosition - new Vector3(0, 0, recoilDistance);
-        pos.z = baseZ;
-        transform.localPosition = pos;
+        transform.position -= transform.right * recoilDistance;
+    }
+
+    void HandleSpinAndMovement()
+    {
+        if (spinning)
+        {
+            spinElapsed += Time.deltaTime;
+            float t = spinElapsed / spinDuration;
+            float zRotation = Mathf.Lerp(0, 360f * spinTurns, t);
+            transform.localRotation = Quaternion.Euler(0, 0, zRotation);
+            if (spinElapsed >= spinDuration) EndSpin();
+        }
+        else
+        {
+            Animator charAnimator = Character != null ? Character.GetComponent<Animator>() : null;
+
+            bool isRunning = charAnimator != null && charAnimator.HasParameter("IsRunning") && charAnimator.GetBool("IsRunning");
+            bool isWalking = charAnimator != null && charAnimator.HasParameter("IsWalking") && charAnimator.GetBool("IsWalking");
+
+            Vector3 targetOffset;
+            if (isRunning) targetOffset = runOffset;
+            else if (isWalking) targetOffset = walkOffset;
+            else targetOffset = idleOffset;
+
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            float sideX = (mousePos.x < Character.transform.position.x) ? leftSideX : rightSideX;
+            
+            Vector3 finalOffset = new Vector3(targetOffset.x + sideX, targetOffset.y, baseZ);
+
+            transform.localPosition = Vector3.Lerp(transform.localPosition, originalPosition + finalOffset, Time.deltaTime * recoilSpeed);
+        }
+
+        if (trail != null && !spinning) trail.emitting = false;
     }
 
     void StartSpin()
@@ -155,56 +205,21 @@ public class Escopeta : MonoBehaviour
         spinning = true;
         spinElapsed = 0f;
         shotCount = 0;
-
         if (audioSource != null && somGiro != null)
         {
             audioSource.volume = volumeGiro;
             audioSource.clip = somGiro;
             audioSource.Play();
         }
-
-        if (trail != null)
-        {
-            trail.Clear();
-            trail.emitting = true;
-        }
+        if (trail != null) { trail.Clear(); trail.emitting = true; }
     }
 
     void EndSpin()
     {
         spinning = false;
-        transform.localRotation = originalRotation;
-
-        if (audioSource != null && audioSource.clip == somGiro)
-        {
-            audioSource.Stop();
-        }
-
-        if (trail != null)
-        {
-            trail.emitting = false;
-            trail.Clear();
-        }
+        if (audioSource != null && audioSource.clip == somGiro) audioSource.Stop();
+        if (trail != null) { trail.emitting = false; trail.Clear(); }
     }
-
-void OnEnable()
-{
-    if (Time.timeScale > 0 && Time.timeSinceLevelLoad > 0.1f)
-    {
-        if (audioSource != null && somRecarga != null)
-        {
-            audioSource.PlayOneShot(somRecarga, volumeRecarga);
-        }
-    }
-}
-
-void OnDisable()
-{
-    isReloading = false;
-    spinning = false;
-    if (audioSource != null) audioSource.Stop();
-    StopAllCoroutines();
-}
 
     void Reload()
     {
@@ -219,65 +234,35 @@ void OnDisable()
     {
         StartSpin();
         yield return new WaitForSeconds(spinDuration);
-
         if (audioSource != null && somRecarga != null)
-        {
             audioSource.PlayOneShot(somRecarga, volumeRecarga);
-        }
-
         currentAmmo = maxAmmo;
         UpdateAmmoUI();
         isReloading = false;
     }
 
-    public void UpdateAmmoUI()
-    {
-        if (ammoText != null) ammoText.text = currentAmmo + " / " + maxAmmo;
-    }
+    public void UpdateAmmoUI() { if (ammoText != null) ammoText.text = currentAmmo + " / " + maxAmmo; }
 
     void ToggleGunVisibility()
     {
         gunVisible = !gunVisible;
         foreach (SpriteRenderer r in renderers) r.enabled = gunVisible;
-        if (trail != null)
-        {
-            trail.emitting = false;
-            trail.Clear();
-        }
         if (ammoText != null) ammoText.enabled = gunVisible;
     }
 
-    void HandleSpinAndMovement()
+    void OnEnable() { if (Time.timeScale > 0 && Time.timeSinceLevelLoad > 0.1f) { if (audioSource != null && somRecarga != null) audioSource.PlayOneShot(somRecarga, volumeRecarga); } }
+    void OnDisable() { isReloading = false; spinning = false; if (audioSource != null) audioSource.Stop(); StopAllCoroutines(); }
+}
+
+public static class AnimatorExtensions
+{
+    public static bool HasParameter(this Animator animator, string paramName)
     {
-        if (spinning)
+        if (animator == null) return false;
+        foreach (AnimatorControllerParameter param in animator.parameters)
         {
-            spinElapsed += Time.deltaTime;
-            float t = spinElapsed / spinDuration;
-            float zRotation = Mathf.Lerp(0, 360f * spinTurns, t);
-            transform.localRotation = originalRotation * Quaternion.Euler(0, 0, zRotation);
-            if (spinElapsed >= spinDuration) EndSpin();
+            if (param.name == paramName) return true;
         }
-        else
-        {
-            Animator charAnimator = Character != null ? Character.GetComponent<Animator>() : null;
-            bool isRunning = charAnimator != null && charAnimator.HasParameter("IsRunning") && charAnimator.GetBool("IsRunning");
-            bool isWalking = charAnimator != null && charAnimator.HasParameter("IsWalking") && charAnimator.GetBool("IsWalking");
-
-            Vector3 targetOffset;
-            Quaternion targetRotation = originalRotation;
-
-            if (isRunning)
-            {
-                targetOffset = new Vector3(runOffset.x, runOffset.y, baseZ);
-                targetRotation *= Quaternion.Euler(0, 0, runTiltAngle);
-            }
-            else if (isWalking) targetOffset = new Vector3(walkOffset.x, walkOffset.y, baseZ);
-            else targetOffset = new Vector3(idleOffset.x, idleOffset.y, baseZ);
-
-            transform.localRotation = Quaternion.Lerp(transform.localRotation, targetRotation, Time.deltaTime * recoilSpeed);
-            transform.localPosition = Vector3.Lerp(transform.localPosition, originalPosition + targetOffset, Time.deltaTime * recoilSpeed);
-        }
-
-        if (trail != null && !spinning) trail.emitting = false;
+        return false;
     }
 }

@@ -28,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
 
     Rigidbody2D rb;
     Animator animator;
+    SpriteRenderer playerSprite;
     Vector2 input;
     float currentSpeed;
 
@@ -40,6 +41,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        playerSprite = GetComponent<SpriteRenderer>();
         
         if (audioSource == null) audioSource = GetComponent<AudioSource>();
 
@@ -77,19 +79,10 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("IsRunning", shift && moving);
             animator.SetBool("IsWalking", !shift && moving);
 
-            if (moving)
-            {
-                GerenciarSomDePassos(shift);
-            }
-            else
-            {
-                PararSomDePassos();
-            }
+            if (moving) GerenciarSomDePassos(shift);
+            else PararSomDePassos();
 
-            if (input.x > 0)
-                transform.localScale = new Vector3(3, 3, 1);
-            else if (input.x < 0)
-                transform.localScale = new Vector3(-3, 3, 1);
+            HandleCharacterFlip();
 
             if (Input.GetKeyDown(KeyCode.Q) && moving && dashCooldownTimer <= 0)
             {
@@ -103,50 +96,50 @@ public class PlayerMovement : MonoBehaviour
             {
                 isDashing = false;
                 Character.isInvincible = false;
-
-                if (dashParticles != null)
-                    dashParticles.Stop();
+                if (dashParticles != null) dashParticles.Stop();
             }
+        }
+    }
+
+    void HandleCharacterFlip()
+    {
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        
+        if (mousePos.x > transform.position.x)
+        {
+            playerSprite.flipX = false;
+        }
+        else
+        {
+            playerSprite.flipX = true;
         }
     }
 
     void GerenciarSomDePassos(bool correndo)
     {
         if (audioSource == null || somPassos == null) return;
-
-        if (!audioSource.isPlaying)
-        {
-            audioSource.Play();
-        }
-
+        if (!audioSource.isPlaying) audioSource.Play();
         audioSource.volume = correndo ? volumeCorrida : volumeCaminhada;
         audioSource.pitch = correndo ? pitchCorrida : pitchCaminhada;
     }
 
     void PararSomDePassos()
     {
-        if (audioSource != null && audioSource.isPlaying)
-        {
-            audioSource.Stop();
-        }
+        if (audioSource != null && audioSource.isPlaying) audioSource.Stop();
     }
 
     void ExecutarDash()
     {
         PararSomDePassos(); 
-        
         if (audioSource != null && somDash != null)
-        {
             audioSource.PlayOneShot(somDash, volumeDash);
-        }
 
         dashCooldownTimer = dashCooldown;
         dashTime = dashDuration;
         isDashing = true;
         dashDir = input.normalized;
 
-        if ((dashDir.y > 0 && rb.position.y >= maxY) ||
-            (dashDir.y < 0 && rb.position.y <= minY))
+        if ((dashDir.y > 0 && rb.position.y >= maxY) || (dashDir.y < 0 && rb.position.y <= minY))
             dashDir.y = 0;
 
         Character.isInvincible = true;
@@ -155,7 +148,8 @@ public class PlayerMovement : MonoBehaviour
         {
             var vol = dashParticles.velocityOverLifetime;
             vol.enabled = true;
-            vol.x = new ParticleSystem.MinMaxCurve(transform.localScale.x > 0 ? -5f : 5f);
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            vol.x = new ParticleSystem.MinMaxCurve(mousePos.x > transform.position.x ? -5f : 5f);
             dashParticles.Play();
         }
     }

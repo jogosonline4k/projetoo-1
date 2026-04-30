@@ -15,19 +15,14 @@ public class MainMenu : MonoBehaviour
 
     void Awake()
     {
-        // Forçamos a verificação no exato momento em que o script acorda
         if (PlayerPrefs.GetInt("DeveIniciarDireto", 0) == 1)
         {
-            // Consome a chave para não entrar em loop
             PlayerPrefs.SetInt("DeveIniciarDireto", 0);
             PlayerPrefs.Save();
-            
-            // Ativa o jogo
             EntrarNoJogo();
         }
         else
         {
-            // Ativa o menu
             FicarNoMenu();
         }
     }
@@ -56,7 +51,6 @@ public class MainMenu : MonoBehaviour
 
     public void StartGame()
     {
-        // Se o botão foi clicado, iniciamos a corrotina
         StartCoroutine(SequenciaStart());
     }
 
@@ -72,14 +66,11 @@ public class MainMenu : MonoBehaviour
             }
         }
 
-        // Espera o tempo do fade em segundos reais
         yield return new WaitForSecondsRealtime(tempoDeEspera);
 
-        // Prepara a chave para o próximo carregamento
         PlayerPrefs.SetInt("DeveIniciarDireto", 1);
         PlayerPrefs.Save();
 
-        // Recarrega a cena
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
@@ -87,11 +78,13 @@ public class MainMenu : MonoBehaviour
     {
         if (creditsPanel != null) creditsPanel.SetActive(true);
         if (mainMenuPanel != null) mainMenuPanel.SetActive(false);
+        if (gameUI != null) gameUI.SetActive(false);
     }
 
     public void CloseCredits()
     {
         if (creditsPanel != null) creditsPanel.SetActive(false);
         if (mainMenuPanel != null) mainMenuPanel.SetActive(true);
+        if (gameUI != null) gameUI.SetActive(false);
     }
 }

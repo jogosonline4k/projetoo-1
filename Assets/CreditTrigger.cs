@@ -3,10 +3,11 @@ using UnityEngine;
 public class CreditTrigger : MonoBehaviour
 {
     public GameObject creditsPanel;
+    public GameObject gameUI;
 
     private void Start()
     {
-        creditsPanel.SetActive(false);
+        if (creditsPanel != null) creditsPanel.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -21,7 +22,9 @@ public class CreditTrigger : MonoBehaviour
 
     void OpenCredits()
     {
-        creditsPanel.SetActive(true);
+        if (creditsPanel != null) creditsPanel.SetActive(true);
+        if (gameUI != null) gameUI.SetActive(false);
+        
         Time.timeScale = 0f;
     }
 }
