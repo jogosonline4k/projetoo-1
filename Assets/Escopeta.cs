@@ -12,7 +12,7 @@ public class Escopeta : MonoBehaviour
     public int currentAmmo;
     public float recoilAngle = 15f;
     public float recoilDistance = 0.1f;
-    public float recoilSpeed = 10f;
+    public float recoilSpeed = 10f; 
     public float spinDuration = 0.166f;
     public int spinTurns = 3;
     public TrailRenderer trail;
@@ -44,10 +44,15 @@ public class Escopeta : MonoBehaviour
     public Vector2 idleOffset = new Vector2(0, 0);
     public Vector2 walkOffset = new Vector2(0.05f, 0);
     public Vector2 runOffset = new Vector2(0.1f, -0.05f);
+
+    [Header("Ângulo da Arma por Estado")]
+    public float idleAngle = 0f;
+    public float walkAngle = -5f;
+    public float runAngle = -15f;
     
     [Header("Ajustes de Lado")]
     public float rightSideX = 0.2f;
-    public float leftSideX = -0.2f;
+    public float leftSideX = -0.2f; 
 
     [Header("Shotgun Settings")]
     public int shotsPerFire = 5;       
@@ -57,7 +62,10 @@ public class Escopeta : MonoBehaviour
 
     void Start()
     {
-        originalPosition = transform.localPosition;
+        // CORREÇÃO CRÍTICA: Força o ponto central do X local a ser exatamente 0.
+        // Isso limpa qualquer resquício de posição "suja" vinda do Inspector.
+        originalPosition = new Vector3(0f, transform.localPosition.y, transform.localPosition.z);
+        
         originalRotation = transform.localRotation;
         baseZ = transform.localPosition.z;
         initialScale = transform.localScale;
@@ -94,7 +102,7 @@ public class Escopeta : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F)) ToggleGunVisibility();
         if (!gunVisible) return;
 
-        if (!spinning) HandleAiming();
+        HandleAiming();
 
         if (currentAmmo <= 0 && !spinning && !isReloading)
         {
@@ -121,24 +129,86 @@ public class Escopeta : MonoBehaviour
             Reload();
         }
 
-        HandleSpinAndMovement();
+        if (spinning)
+        {
+            spinElapsed += Time.deltaTime;
+            float t = spinElapsed / spinDuration;
+            float zRotation = Mathf.Lerp(0, 360f * spinTurns, t);
+            transform.localRotation = Quaternion.Euler(0, 0, zRotation);
+            if (spinElapsed >= spinDuration) EndSpin();
+        }
+        else
+        {
+            UpdateWeaponPosition();
+        }
+
+        if (trail != null && !spinning) trail.emitting = false;
     }
 
     void HandleAiming()
     {
+        if (firePoint == null) return;
+
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector3 direction = mousePos - transform.position;
+        Vector3 direction = mousePos - firePoint.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-        transform.rotation = Quaternion.Euler(0, 0, angle);
+        firePoint.rotation = Quaternion.Euler(0, 0, angle);
+    }
 
-        Vector3 scale = initialScale;
-        if (mousePos.x < transform.position.x)
-            scale.y = -initialScale.y;
+    void UpdateWeaponPosition()
+    {
+        if (Character == null) return;
+
+        Animator charAnimator = Character.GetComponent<Animator>();
+        bool isRunning = charAnimator != null && charAnimator.HasParameter("IsRunning") && charAnimator.GetBool("IsRunning");
+        bool isWalking = charAnimator != null && charAnimator.HasParameter("IsWalking") && charAnimator.GetBool("IsWalking");
+
+        Vector3 targetOffset;
+        float targetAngle;
+
+        if (isRunning)
+        {
+            targetOffset = runOffset;
+            targetAngle = runAngle;
+        }
+        else if (isWalking)
+        {
+            targetOffset = walkOffset;
+            targetAngle = walkAngle;
+        }
         else
-            scale.y = initialScale.y;
+        {
+            targetOffset = idleOffset;
+            targetAngle = idleAngle;
+        }
+
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         
-        transform.localScale = scale;
+        bool mouseNaEsquerda = mousePos.x < Character.transform.position.x;
+        float sideX = mouseNaEsquerda ? leftSideX : rightSideX;
+        
+        transform.localScale = initialScale;
+
+        Vector3 finalOffset;
+
+        if (mouseNaEsquerda)
+        {
+            transform.localRotation = Quaternion.Euler(0, 180f, targetAngle);
+            
+            // Lógica perfeitamente espelhada baseada na Gun
+            finalOffset = new Vector3(-targetOffset.x + sideX, targetOffset.y, baseZ);
+        }
+        else
+        {
+            transform.localRotation = Quaternion.Euler(0, 0, targetAngle);
+            
+            // Lado direito normal
+            finalOffset = new Vector3(targetOffset.x + sideX, targetOffset.y, baseZ);
+        }
+
+        // Multiplicado por 5.0f para travar o movimento no personagem de forma totalmente rígida
+        transform.localPosition = Vector3.Lerp(transform.localPosition, originalPosition + finalOffset, Time.deltaTime * recoilSpeed * 5f);
     }
 
     void ShootShotgun()
@@ -164,40 +234,7 @@ public class Escopeta : MonoBehaviour
 
     void ApplyRecoil()
     {
-        transform.position -= transform.right * recoilDistance;
-    }
-
-    void HandleSpinAndMovement()
-    {
-        if (spinning)
-        {
-            spinElapsed += Time.deltaTime;
-            float t = spinElapsed / spinDuration;
-            float zRotation = Mathf.Lerp(0, 360f * spinTurns, t);
-            transform.localRotation = Quaternion.Euler(0, 0, zRotation);
-            if (spinElapsed >= spinDuration) EndSpin();
-        }
-        else
-        {
-            Animator charAnimator = Character != null ? Character.GetComponent<Animator>() : null;
-
-            bool isRunning = charAnimator != null && charAnimator.HasParameter("IsRunning") && charAnimator.GetBool("IsRunning");
-            bool isWalking = charAnimator != null && charAnimator.HasParameter("IsWalking") && charAnimator.GetBool("IsWalking");
-
-            Vector3 targetOffset;
-            if (isRunning) targetOffset = runOffset;
-            else if (isWalking) targetOffset = walkOffset;
-            else targetOffset = idleOffset;
-
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            float sideX = (mousePos.x < Character.transform.position.x) ? leftSideX : rightSideX;
-            
-            Vector3 finalOffset = new Vector3(targetOffset.x + sideX, targetOffset.y, baseZ);
-
-            transform.localPosition = Vector3.Lerp(transform.localPosition, originalPosition + finalOffset, Time.deltaTime * recoilSpeed);
-        }
-
-        if (trail != null && !spinning) trail.emitting = false;
+        transform.position -= firePoint.right * recoilDistance;
     }
 
     void StartSpin()
@@ -217,6 +254,7 @@ public class Escopeta : MonoBehaviour
     void EndSpin()
     {
         spinning = false;
+        transform.localRotation = originalRotation; 
         if (audioSource != null && audioSource.clip == somGiro) audioSource.Stop();
         if (trail != null) { trail.emitting = false; trail.Clear(); }
     }
@@ -247,7 +285,7 @@ public class Escopeta : MonoBehaviour
     {
         gunVisible = !gunVisible;
         foreach (SpriteRenderer r in renderers) r.enabled = gunVisible;
-        if (ammoText != null) ammoText.enabled = gunVisible;
+        if (ammoText != null) ammoText.text = currentAmmo + " / " + maxAmmo;
     }
 
     void OnEnable() { if (Time.timeScale > 0 && Time.timeSinceLevelLoad > 0.1f) { if (audioSource != null && somRecarga != null) audioSource.PlayOneShot(somRecarga, volumeRecarga); } }

@@ -22776,8 +22776,11 @@ MonoBehaviour:
   idleOffset: {x: 0, y: 0}
   walkOffset: {x: 0.03, y: 0.02}
   runOffset: {x: 0.05, y: -0.02}
-  rightSideX: 0
-  leftSideX: -0.14
+  idleAngle: 0
+  walkAngle: -5
+  runAngle: -50
+  rightSideX: 0.05
+  leftSideX: -0.05
   shotsPerFire: 9
   spreadAngle: 12
   fireRate: 0.6
@@ -33695,8 +33698,11 @@ MonoBehaviour:
   idleOffset: {x: 0, y: 0}
   walkOffset: {x: -0.01, y: 0}
   runOffset: {x: -0.01, y: -0.03}
-  rightSideX: 0.015
-  leftSideX: -0.29
+  idleAngle: 0
+  walkAngle: -5
+  runAngle: -15
+  rightSideX: 0.15
+  leftSideX: -0.15
 --- !u!212 &1759947945
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -40420,7 +40426,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3907697708370825211, guid: beb65426676b6874685eaa328d456bb4, type: 3}
       propertyPath: moveSpeed
-      value: 1.5
+      value: 1.3
       objectReference: {fileID: 0}
     - target: {fileID: 3907697708370825211, guid: beb65426676b6874685eaa328d456bb4, type: 3}
       propertyPath: stepSound
@@ -40428,7 +40434,7 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: 4db80a6ce4647bb43a660a9eab611105, type: 3}
     - target: {fileID: 3907697708370825211, guid: beb65426676b6874685eaa328d456bb4, type: 3}
       propertyPath: chaseSpeed
-      value: 2
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 3907697708370825211, guid: beb65426676b6874685eaa328d456bb4, type: 3}
       propertyPath: patrolTime
@@ -40803,7 +40809,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8663336794831625169, guid: 6465a38faf94a794fabab011bd318382, type: 3}
       propertyPath: moveSpeed
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8663336794831625169, guid: 6465a38faf94a794fabab011bd318382, type: 3}
       propertyPath: stepSound
@@ -40811,7 +40817,7 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: ad32c29f38f6c0341935f5f6e9b4b70b, type: 3}
     - target: {fileID: 8663336794831625169, guid: 6465a38faf94a794fabab011bd318382, type: 3}
       propertyPath: chaseSpeed
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8663336794831625169, guid: 6465a38faf94a794fabab011bd318382, type: 3}
       propertyPath: stepVolume
